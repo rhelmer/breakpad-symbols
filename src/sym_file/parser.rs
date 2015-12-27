@@ -321,7 +321,15 @@ named!(symbol_file<&[u8], SymbolFile>,
 
 /// Parse a `SymbolFile` from `bytes`.
 pub fn parse_symbol_bytes(bytes : &[u8])  -> Result<SymbolFile, &'static str> {
-    if let Done(rest, symfile) = symbol_file(&bytes) {
+    let mut clean = vec!();
+
+    for byte in bytes {
+        // skip carriage returns
+        if byte != &0x0D {
+            clean.push(*byte);
+        }
+    }
+    if let Done(rest, symfile) = symbol_file(&clean) {
         if rest == b"" {
             Ok(symfile)
         } else {
