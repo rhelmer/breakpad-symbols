@@ -33,7 +33,7 @@ fn hexdigit(input:&[u8]) -> IResult<&[u8], &[u8]> {
   for (idx, item) in input.iter().enumerate() {
     if !is_hexdigit(*item) {
       if idx == 0 {
-        return Error(Err::Position(0, input))
+        return Error(Err::Position(ErrorKind::HexDigit, input))
       } else {
         return Done(&input[idx..], &input[0..idx])
       }
