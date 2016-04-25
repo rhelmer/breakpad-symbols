@@ -60,10 +60,11 @@ impl SymbolFile {
 #[cfg(test)]
 mod test {
     use super::*;
+    use std::env;
     use std::path::PathBuf;
 
     fn abs_file() -> PathBuf {
-        let mut path = PathBuf::from(env!("PWD"));
+        let mut path = env::current_dir().unwrap();
         path.push(file!());
         path
     }
